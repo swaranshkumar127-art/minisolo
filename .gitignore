@@ -1,0 +1,18 @@
+# UE5 default ignores
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+DerivedDataCacheCommandlet/
+.vs/
+*.sln
+*.vcxproj
+*.suo
+*.opensdf
+*.sdf
+*.user
+.utbuild/
+
+# OS
+Thumbs.db
+Desktop.ini

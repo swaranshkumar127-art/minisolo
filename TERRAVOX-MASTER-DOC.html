@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TERRAVOX — "The Helix Voxel Realm" | Complete Project Master Document</title>
+<style>
+  :root{
+    --bg:#0b0d14; --bg2:#11141f; --card:#141826; --card2:#1a1f31;
+    --line:#262d44; --gold:#e8c96a; --red:#ff5a5f; --blue:#6aa7ff;
+    --purple:#b48cff; --green:#7ee2a8; --grey:#9aa3b5; --text:#e8ecf5;
+    --muted:#7d869c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:15px/1.65 "Segoe UI",system-ui,-apple-system,sans-serif}
+  .wrap{max-width:1060px;margin:0 auto;padding:28px 20px 80px}
+  /* ===== Hero ===== */
+  header.hero{position:relative;overflow:hidden;border:1px solid var(--line);
+    border-radius:16px;padding:34px 30px;margin-bottom:34px;
+    background:radial-gradient(1200px 400px at 20% -20%,#1b2440 0%,#10131f 55%,#0c0e18 100%)}
+  header.hero h1{margin:0;font-size:34px;letter-spacing:1px;
+    background:linear-gradient(90deg,#fff,#9dc3ff 45%,#f4c878);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  header.hero .sub{margin:8px 0 0;color:var(--blue);font-weight:600;letter-spacing:3px;text-transform:uppercase;font-size:13px}
+  header.hero p{margin:14px 0 0;color:var(--grey);max-width:760px}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .badge{font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--text);background:var(--card)}
+  .badge.ok{border-color:#1f6b45;color:var(--green)}
+  .badge.warn{border-color:#7a5a17;color:var(--gold)}
+  .badge.bad{border-color:#7a2227;color:var(--red)}
+  .badge.info{border-color:#23406e;color:var(--blue)}
+  /* ===== Typography ===== */
+  h2{font-size:22px;margin:46px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line);color:#fff}
+  h2 .num{color:var(--purple);margin-right:8px}
+  h3{font-size:17px;margin:26px 0 8px;color:var(--gold)}
+  h4{font-size:15px;margin:18px 0 6px;color:var(--blue)}
+  p{margin:8px 0}
+  a{color:var(--blue)}
+  .muted{color:var(--muted)}
+  .red{color:var(--red)} .gold{color:var(--gold)} .green{color:var(--green)} .blue{color:var(--blue)} .purple{color:var(--purple)}
+  ul,ol{margin:8px 0;padding-left:22px}
+  li{margin:4px 0}
+  /* ===== Cards ===== */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+  .card h4{margin-top:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}}
+  /* ===== Code ===== */
+  pre{background:#0a0c12;border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+    overflow-x:auto;font:12.5px/1.6 "Consolas",monospace;color:#c8e0ff}
+  code{font-family:"Consolas",monospace;font-size:13px;color:#d7c8ff;background:#14182a;padding:1px 6px;border-radius:5px}
+  pre code{background:none;padding:0;color:#c8e0ff}
+  .cmt{color:#6a748a}
+  /* ===== Tables ===== */
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--card2);color:var(--gold);font-weight:600}
+  tr:nth-child(even) td{background:#11141f}
+  td .ok{color:var(--green)} td .no{color:var(--red)}
+  /* ===== Timeline ===== */
+  .timeline{position:relative;margin:18px 0 6px;padding-left:26px;border-left:2px solid var(--line)}
+  .tl{position:relative;margin:0 0 18px;padding-left:8px}
+  .tl::before{content:"";position:absolute;left:-33px;top:5px;width:12px;height:12px;border-radius:50%;
+    background:var(--purple);border:3px solid var(--bg)}
+  .tl.done::before{background:var(--green)}
+  .tl.fail::before{background:var(--red)}
+  .tl.pause::before{background:var(--gold)}
+  .tl .when{font-size:12px;color:var(--muted);letter-spacing:1px}
+  .tl b{color:#fff}
+  /* ===== Prompt box ===== */
+  .promptbox{background:#0a0c13;border:1px dashed var(--blue);border-radius:12px;padding:20px 22px;margin:16px 0}
+  .promptbox pre{white-space:pre-wrap;border:none;background:none;padding:0;font:14px/1.7 "Consolas",monospace}
+  details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px;margin:10px 0}
+  summary{cursor:pointer;font-weight:600;color:var(--blue)}
+  .tag{font-size:11px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:5px;text-transform:uppercase}
+  .tag.t-done{background:#12321f;color:var(--green)}
+  .tag.t-todo{background:#3a2c07;color:var(--gold)}
+  .tag.t-wip{background:#1d2540;color:var(--blue)}
+  .footer{margin-top:60px;text-align:center;color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ======================= HERO ======================= -->
+<header class="hero">
+  <div class="sub">Unreal Engine 5 · C++ · Custom Voxel Engine</div>
+  <h1>TERRAVOX — "The Helix Voxel Realm"</h1>
+  <p>The complete, authoritative master document of every conversation, decision, bug, fix, expectation and dream
+  behind this project — formatted to be re-fed to an AI assistant as a full-context prompt.
+  <b>Everything below is real data from the working project.</b></p>
+  <div class="badges">
+    <span class="badge ok">Terrains visible ✓</span>
+    <span class="badge ok">Sky + atmosphere ✓</span>
+    <span class="badge ok">Day/night ✓</span>
+    <span class="badge ok">Break/place blocks ✓</span>
+    <span class="badge warn">Pawn collision WIP</span>
+    <span class="badge bad">No rain yet</span>
+    <span class="badge todo">No System UI yet</span>
+    <span class="badge info">5 commits · 1200+ lines</span>
+  </div>
+</header>
+
+<!-- ======================= TOC ======================= -->
+<h2><span class="num">§0</span>Contents — the AI index</h2>
+<ol>
+  <li><a href="#howto">How to use this document (as an AI continuation prompt)</a></li>
+  <li><a href="#vision">The Vision — what we wanted to build (the dream, verbatim)</a></li>
+  <li><a href="#expect">Expectations vs Reality — everything we wanted, and its exact status</a></li>
+  <li><a href="#today">What exists today — the real codebase (files, systems, values)</a></li>
+  <li><a href="#timeline">Full history — every stage of the work, in order (with commits)</a></li>
+  <li><a href="#gamedev">The debugging epic — every bug, root cause, and the "aha" fixes</a></li>
+  <li><a href="#lessons">Hard-won lessons &amp; toolchain knowledge (build/launch/UBT/pixel-probing)</a></li>
+  <li><a href="#blockers">Current blockers &amp; known bugs (the honest list)</a></li>
+  <li><a href="#roadmap">Roadmap — next moves in priority order</a></li>
+  <li><a href="#fullprompt">The mega prompt — paste this to continue the work</a></li>
+  <li><a href="#appendix">Appendix — configs, commands, full file references</a></li>
+</ol>
+
+<!-- ======================= HOW TO USE ======================= -->
+<h2 id="howto"><span class="num">§1</span>How to use this document</h2>
+<div class="card">
+  <p>This file is a <b>lossless state-dump of an entire AI-assisted gamedev project</b>. It serves three purposes:</p>
+  <ol>
+    <li><b>A human recap</b> — open it in any browser to see the full journey and current state.</li>
+    <li><b>An AI handoff** — copy <a href="#fullprompt">§10 (the mega prompt)</a> and paste it into any assistant; it contains
+    the full vision, current code truth, toolchain commands, blockers and next steps so the AI can continue instantly
+    without re-discovering anything.</li>
+    <li><b>The source of truth</b> — when the user and AI disagree, this document wins. Update it at each milestone.</li>
+  </ol>
+  <p class="muted">Truth-sources used to build this: the committed git history (5 commits), <code>VISION.md</code>,
+  all source files &amp; configs, and the complete session-by-session conversation transcript condensed below.</p>
+</div>
+
+<!-- ======================= VISION ======================= -->
+<h2 id="vision"><span class="num">§2</span>The Vision — what we wanted to build</h2>
+<p>The game was never just "a voxel world". The stated dream (from <code>VISION.md</code>, the authoritative design doc):</p>
+<blockquote style="margin:10px 0;padding:4px 18px;border-left:4px solid var(--purple)">
+<b>Core promise: Minecraft voxel + Solo Leveling + Dr. Stone + Dragon Ball + Your Name + Indian mythology, in Unreal Engine 5.</b>
+</blockquote>
+
+<h3>2.1 The World</h3>
+<div class="card">
+  <ul>
+    <li><b>"The Helix Voxel Realm"</b> — a world shaped like a giant DNA helix, built in layers.</li>
+    <li><b>Block-physics world</b> — custom voxel system, deliberately NOT a marketplace plugin (full control, learning).</li>
+    <li><b>Biomes:</b> Taiga, Desert, Volcanic (DBZ), Crystal Caves (Dr. Stone), Shadow Realm (Solo Leveling).</li>
+    <li><b>Layers:</b> L1 Surface (survival &amp; nature) · L2 Underground (ancient tech &amp; dungeons) · L3 Shadow Realm (PvP &amp; Shadow Army).</li>
+    <li><b>Dynamic weather:</b> heavy rain can OPEN TIME PORTALS (Your Name effect).</li>
+  </ul>
+</div>
+
+<h3>2.2 The Core Systems</h3>
+<div class="grid2">
+  <div class="card">
+    <h4>A. The System (Solo Leveling)</h4>
+    <ul>
+      <li>Holographic anime-style UI (blue/red holograms)</li>
+      <li>Daily quests → Level Up → System popups</li>
+      <li>Stats: STR / AGI / INT / VIT (science grows INT)</li>
+      <li>Rank F → SSS (Shadow Monarch)</li>
+      <li>Shadow Extraction: kill a monster → your Shadow Soldier</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>B. Science &amp; Crafting (Dr. Stone)</h4>
+    <ul>
+      <li>Crafting bench = Science Lab; chemical reactions</li>
+      <li>Wood + Water + Electricity = Gunpowder</li>
+      <li>Iron + Acid + Heat = Steel</li>
+      <li>Inventions via Blueprints (Steam Engine → trains, Radio → chat)</li>
+      <li>Elemental blocks: Carbon, Sodium, Gold</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>C. Power System (Dragon Ball)</h4>
+    <ul>
+      <li>Ki/Energy bar (inventory)</li>
+      <li>Meditation fills Ki; Kamehameha-style beams from block combos</li>
+      <li>Level 100 → Super Saiyan mode (blocks glow, speed up)</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>D. Connection (Your Name)</h4>
+    <ul>
+      <li>Katawari tethering: players feel/see each other</li>
+      <li>Rain triggers Time Shift (Past/Future bridging builds across players)</li>
+    </ul>
+  </div>
+</div>
+
+<h3>2.3 Guilds, Dungeons &amp; Loot</h3>
+<div class="card">
+  <ul>
+    <li>Guild Halls (voxel castles); guild level opens <b>Shadow Gates</b>.</li>
+    <li>Guild Wars: 1v1 tournaments, 5v5 Shadow Boss raids.</li>
+    <li>Dungeons: ancient-tech caves. Bosses: <b>Shadow Monarch, Frieza Clone, Ancient Scientist</b>.</li>
+    <li>Loot: <b>Shadow Orbs</b> (soldiers), <b>Formula Scrolls</b> (recipes), <b>Ki Crystals</b> (power).</li>
+  </ul>
+</div>
+
+<h3>2.4 Inventory &amp; UI</h3>
+<div class="card">
+  <ul>
+    <li>MC grid + holographic cards; equipment slots + shadow weapon slot.</li>
+    <li>3x3 crafting + chemical reaction bar.</li>
+    <li>World map + Shadow Realm map; chat + guild telepathy; quest log.</li>
+  </ul>
+</div>
+
+<h3>2.5 Sacred — Indian Mythology (30% focus)</h3>
+<div class="card">
+  <ul>
+    <li><b>Shiva Lingam (Secret Idol/Boss):</b> colossal infinite obsidian+gold Lingam towering over a Taiga forest; only the player with the highest golden aura can perceive Lord Shiva's eyes/face carved on it.</li>
+    <li><b>Tulsi Leaves:</b> healing + poison immunity; glowing green healing aura + ancient Vedic runes.</li>
+    <li><b>Vedic Chants:</b> sound waves transform into golden light particles &amp; geometric runes.</li>
+    <li><b>Saraswati Point</b> (space core): Vedic observatory mixing ISRO satellite dishes with temple pillars; swirling nebulae; Sanskrit verses made of energy; quantum equations in the void.</li>
+    <li><b>Saraswati Flow:</b> glowing blue underground river of energy through the void.</li>
+    <li><b>Boötes Void:</b> infinite empty darkness, faint dying red stars, cosmic horror; Shadow demons of black smoke/stardust; voxel asteroids in nothingness.</li>
+  </ul>
+</div>
+
+<h3>2.6 Art Direction</h3>
+<div class="card">
+  <ul>
+    <li>UE5 cinematic render; Lumen GI; volumetric fog/light; Nanite-style hyper-detail where possible.</li>
+    <li>Palette: black / red / blue / purple (Solo Leveling) + warm firelight + sacred gold.</li>
+    <li>Taiga spring rain ambience: puddles reflecting sky, wet moss, campfires, moody.</li>
+    <li>Style: balanced anime + realism.</li>
+  </ul>
+  <h4>Visual Milestone Prompts (the shots we're chasing)</h4>
+  <ol>
+    <li>Shadow Monarch + Shadow Soldiers army in voxel Taiga, rainy, volumetric.</li>
+    <li>Holographic System UI, voxel-to-digit particles, "LEVEL UP" anime font.</li>
+    <li>Cave Science Lab: stone+glass+copper, glowing vials, "Recipe Unlocked".</li>
+    <li>Super Saiyan transformation above voxel world (golden aura, lightning).</li>
+    <li>Time rift split screen: spring Taiga ↔ winter Shadow forest, blue portal.</li>
+    <li>Void King boss; Shadow Fortress guild castle; cosmic gods/lore above.</li>
+  </ol>
+</div>
+
+<h3>2.7 The original build plan (priority-first)</h3>
+<table>
+  <tr><th>#</th><th>Step</th><th>Status</th></tr>
+  <tr><td>1</td><td>UE5 project + custom voxel terrain (mesh, FPS pawn, block break/place) — D3D11 for weak iGPU</td><td class="ok">DONE (commit 6f71ad7)</td></tr>
+  <tr><td>2</td><td>Taiga atmosphere: sun, sky atmosphere, volumetric fog, rain (Niagara), puddles, campfire light, pines</td><td>Partly — sun/sky/fog/pines DONE; rain/puddles/campfire TODO</td></tr>
+  <tr><td>3</td><td>Day/night + weather cycle</td><td class="ok">Day/night DONE (4-min cycle); weather TODO</td></tr>
+  <tr><td>4</td><td>The System UI (hologram status/stats/rank/quests, level-up toast)</td><td>NOT STARTED — next big feature</td></tr>
+  <tr><td>5</td><td>Block/chemistry variety + inventory grid</td><td>NOT STARTED (7 block types exist)</td></tr>
+  <tr><td>6</td><td>Mobs → Shadow Extraction (Tier-1 melee grunt)</td><td>NOT STARTED</td></tr>
+  <tr><td>7</td><td>Pines → trees/materials pass; caves + ores</td><td>NOT STARTED</td></tr>
+  <tr><td>8</td><td>Multiplayer + guilds; dungeons/bosses; sacred sites</td><td>NOT STARTED</td></tr>
+</table>
+
+<!-- ======================= EXPECTATIONS ======================= -->
+<h2 id="expect"><span class="num">§3</span>Expectations vs Reality</h2>
+<p>What the user asked for / expected in the conversation, and the honest current status of each:</p>
+<table>
+  <tr><th>Expectation / ask</th><th>Status</th><th>Note</th></tr>
+  <tr><td>"Make it look like a game, not a blue screen"</td><td class="ok">SOLVED</td><td>Terrain finally visibly renders (green voxel slopes over blue sky).</td></tr>
+  <tr><td>"See the world on the ground like Minecraft, first person"</td><td>HALF</td><td>Camera is now a stable cinematic vantage ON the terrain; first-person gameplay blocked by pawn physics.</td></tr>
+  <tr><td>"Rain ambience (Niagara), Taiga spring rain feel"</td><td>NOT STARTED</td><td>Highest-priority visual after the collision fix.</td></tr>
+  <tr><td>"The System UI (Solo Leveling holograms)"</td><td>NOT STARTED</td><td>Planned immediately after rain.</td></tr>
+  <tr><td>"Real voxel gameplay (walk, run, jump, break/place)"</td><td>BLOCKED</td><td>Break/place code exists; walking blocked by terrain-collision bug.</td></tr>
+  <tr><td>"Everything must keep direction — never lose the vision"</td><td class="ok">HELD</td><td>Each commit maps to the VISION.md plan; direction tracked in this doc.</td></tr>
+  <tr><td>"Boss fights, Shadow Monarch, SSJ, time portals…"</td><td>FUTURE</td><td>Framework (voxel world + palette + systems) being built first, per onboarding order.</td></tr>
+</table>
+
+<!-- ======================= TODAY ======================= -->
+<h2 id="today"><span class="num">§4</span>What exists today (the real codebase)</h2>
+
+<h3>4.1 Project anatomy</h3>
+<pre><code>TerraVoxUE5/
+├─ TerraVoxUE5.uproject        <span class="cmt">// UE 5.8, module TerraVoxUE5</span>
+├─ VISION.md                   <span class="cmt">// master design doc</span>
+├─ run_ue5.ps1                 <span class="cmt">// one-click launch script</span>
+├─ .gitignore
+├─ Config/
+│  ├─ DefaultEngine.ini        <span class="cmt">// Entry map, GameMode, desktop-target, D3D-friendly settings</span>
+│  └─ DefaultInput.ini         <span class="cmt">// Move/Next/Prevs/... see §4.6</span>
+└─ Source/TerraVoxUE5/
+   ├─ TerraVoxUE5.Build.cs     <span class="cmt">// module deps (ProceduralMesh, Engine, Core, etc.)</span>
+   ├─ TerraVoxUE5.Target.cs    <span class="cmt">// adds ProceduralMesh to support non-editor targets</span>
+   ├─ TerraVoxUE5Editor.Target.cs
+   └─ Private + Public/
+      ├─ TerraVoxGameMode.[cpp,h]   <span class="cmt">// GameMode + sky/fog/sun + camera pin + day/night</span>
+      ├─ VoxelWorld.[cpp,h]         <span class="cmt">// voxel engine: chunks, mesh gen, palette</span>
+      ├─ PlayerPawn.[cpp,h]         <span class="cmt">// FPS pawn, input, break/place raycasts</span>
+      └─ TerraVoxUE5Module.[cpp,h]  <span class="cmt">// module boilerplate</span></code></pre>
+
+<h3>4.2 VoxelWorld — the voxel engine</h3>
+<div class="card">
+  <ul>
+    <li><b>Single <code>UProceduralMeshComponent</code></b> ("VoxelMesh") owned by <code>AVoxelWorld</code>, created in the
+    constructor (CDO) — guaranteed registered &amp; rendered at spawn.</li>
+    <li><b>Section-per-chunk:</b> <code>ChunkSections</code> map = chunk key → PMC section index (phase 1 stages all columns, then meshes each chunk). RenderDistance 4 → 9×9 = <b>81 chunks</b>.</li>
+    <li><b>Chunk</b>: 16×16 columns × <code>TerrainDepth = 64</code> blocks tall.</li>
+    <li><b>Height field</b>: two octaves of Perlin noise — <code>H = 24 + HeightScale(22) * (N + 0.6·N2)</code>, clamped to [1, 63].</li>
+    <li><b>Column fill</b>: grass (top) / dirt (&nbsp;+1) / stone below, bedrock at y=0.</li>
+    <li><b>Taiga pines</b>: deterministic sparse trees (10% chance) — log trunk 4–6 tall + spruce crown.</li>
+    <li><b>Meshing</b>: greedy-ish by culling internal faces (6-sided, <code>IsSolid</code> neighbor test); vertices are <b>(X, Y=height, Z)</b>.</li>
+    <li><b>Face winding</b> explicitly reversed so fronts face outward in UE (verified against real renders).</li>
+    <li><b>Vertex colors</b> = per-block palette <i>+</i> per-face sun-shading (down 0.68, side 0.82/0.9) <i>+</i> per-block grain noise. Block palette:</li>
+  </ul>
+  <table>
+    <tr><th>ID</th><th>Block</th><th>RGB</th></tr>
+    <tr><td>1</td><td>Grass (taiga green)</td><td>(104, 158, 64)</td></tr>
+    <tr><td>2</td><td>Dirt</td><td>(132, 94, 66)</td></tr>
+    <tr><td>3</td><td>Stone</td><td>(124, 124, 130)</td></tr>
+    <tr><td>4</td><td>Plank</td><td>(164, 132, 74)</td></tr>
+    <tr><td>5</td><td>Pine log</td><td>(101, 73, 51)</td></tr>
+    <tr><td>6</td><td>Pine leaves</td><td>(52, 112, 40)</td></tr>
+  </table>
+  <p class="muted">Public API surfaced: <code>GetBlock / GetTerrainHeight / SetBlock / RebuildChunksInRadius</code>; tunables
+  <code>RenderDistance</code>, <code>TerrainSeed</code> (1337), <code>HeightScale</code> (22).</p>
+</div>
+
+<h3>4.3 TerraVoxGameMode — sky, day/night, camera rig
+<div class="card">
+  <ul>
+    <li><b>Atmosphere actor set</b> (all spawned at runtime, no blueprints needed):
+      <ul>
+        <li><b>Sun</b> — directional, intensity 3.4, color (1.0, 0.97, 0.90), <code>SetAtmosphereSunLight</code>.</li>
+        <li><b>Sky Atmosphere</b> — real day-sky gradient + horizon haze.</li>
+        <li><b>Exponential Height Fog</b> — density 0.003, heightfalloff 0.05, inscattering (0.56, 0.62, 0.68).</li>
+        <li><b>Sky Light</b> — ambient bounce, real-time capture off, intensity 0.6 (kills pitch-black shadows).</li>
+      </ul></li>
+    <li><b>Day/night cycle (240 s ≈ 4 min loop)</b>: elevation <code>sin(phase·2π)·70°</code>, azimuth rotates 360°;
+    sun intensity 0.9→3.5, color lerps warm-day ↔ cold-blue-night; fog color/density shifts too.</li>
+    <li><b>Flat-spot camera pin</b> (the fix that made everything visible):
+      <ol>
+        <li>At t&gt;1 s scan the world grid (gy 2..55, gx 2..40 step 3) for the <b>flattest</b> spot (min sum of 4-neighbour height deltas) → <code>FlatSpot</code>, ground H.</li>
+        <li>Freeze the pawn: disable actor collision + disable all <code>UMovementComponent</code> ticks.</li>
+        <li><code>PC0-&gt;ClientSetLocation(FlatSpot.X, FlatSpot.Y, H+3.5, rot(-8°,0,0))</code>, then a 0.5 s repeating
+        re-pin timer so nothing can knock the view off-frame.</li>
+      </ol></li>
+    <li><b>One-shot screenshot rig</b> at t&gt;6 s: dumps <code>DBG CAM</code> POV, runs <code>show Default</code>, then 0.8 s later
+    <code>HighResShot 1280x720</code> → <code>Saved/Screenshots/WindowsEditor/</code>.</li>
+    <li>One-shot <code>DBG terrain</code> box at t&gt;2 s logs mesh bounds/transform (diagnostic).</li>
+  </ul>
+</div>
+
+<h3>4.4 PlayerPawn — the FPS survivor</h3>
+<div class="card">
+  <ul>
+    <li>Spring-arm (length 0) + FPS camera; pawn-control rotation yaw.</li>
+    <li>Movement tuned: gravity 1.8, jump 430 up/velocity, air control 0.28, walk 440.</li>
+    <li>Input (see §4.6): MoveForward/Right, Turn, LookUp, Jump, <b>FireL = break</b>, <b>FireR = place plank</b>.</li>
+    <li>Raycast to <code>ECC_WorldStatic</code> within 7 m reach; break = <code>SetBlock(...,0)</code>,
+    place = <code>SetBlock(...,4)</code> on the opposite face; falls back to attachment-root actor (for PMC pieces).</li>
+  </ul>
+</div>
+
+<h3>4.5 Config / rendering posture</h3>
+<div class="card">
+  <ul>
+    <li><code>GlobalDefaultGameMode = TerraVoxGameMode</code>; <b>Entry map</b> (empty template) as the only map — world is 100% C++ spawned.</li>
+    <li>Hardware target: <b>Desktop + Maximum</b> quality only nominally; real renderer is tuned for an iGPU:
+      distance fields off, virtual shadows off, GI method 0, smooth framerate, min 30 FPS.</li>
+    <li>Uniform unlit <b>vertex-color material</b> (engine-shipped <code>/Engine/EngineDebugMaterials/VertexColorMaterial</code>)
+      — chosen because runtime async-lit shader compile caused minutes of invisible terrain on this GPU.</li>
+  </ul>
+</div>
+
+<h3>4.6 DefaultInput.ini bindings</h3>
+<table>
+  <tr><th>Action/Axis</th><th>Keys</th></tr>
+  <tr><td>MoveForward</td><td>W/S (Xbox LStick)</td></tr>
+  <tr><td>MoveRight</td><td>A/D (Xbox LStick)</td></tr>
+  <tr><td>Turn</td><td>Mouse X / Left+Right</td></tr>
+  <tr><td>LookUp</td><td>Mouse Y / Up+Down</td></tr>
+  <tr><td>Jump</td><td>Space / Gamepad A</td></tr>
+  <tr><td>FireL (Break)</td><td>Left Mouse</td></tr>
+  <tr><td>FireR (Place plank)</td><td>Right Mouse</td></tr>
+</table>
+
+<!-- ======================= TIMELINE ======================= -->
+<h2 id="timeline"><span class="num">§5</span>Full history — stage by stage</h2>
+
+<div class="timeline">
+
+  <div class="tl done">
+    <div class="when">STAGE 1 · 13 Sep 23:21 · commit <code>6f71ad7</code></div>
+    <b>"TERRAVOX UE5: first playable voxel world"</b><br>
+    Fresh UE 5.8 C++ project from the project wizard. Custom <code>AVoxelWorld</code> generates meshed terrain out of the
+    box: blocks placed per column, faces only where neighbours are air, a PlayerPawn with FPS camera, and actual
+    block break/place via raycast. Launched with <code>-d3d11</code> because the machine has only an iGPU.
+
+  <div class="tl done">
+    <div class="when">STAGE 2 · 14 Sep 10:12 · commit <code>161a126</code></div>
+    <b>"Taiga atmosphere step 1"</b><br>
+    First pass of atmosphere: pine block palette + random spruce trees, sky-atmosphere actor, sun with shadows,
+    exponential fog. This was the first time the scene had a real "sky" instead of a default void.
+
+  <div class="tl done">
+    <div class="when">STAGE 3 · 29 Sep 09:58 · commit <code>1f2e347</code></div>
+    <b>"Fix GREY screen"</b><br>
+    The <span class="red">GREY SCREEN bug</span>: the game was running but appeared as a flat grey. Root cause discovered —
+    the material was being created at runtime and shaders were compiling asynchronously (never completing reliably on
+    this weak iGPU), so the player saw an untextured void. Fixed by using the engine's precompiled
+    <b>runtime lit vertex-color material</b>, launching with <code>-unattended</code> (kills the PostProcessQuality dialog that
+    swallowed input/focus), 81-chunk world, skylight ambient; day/night cycle added.
+
+  <div class="tl done">
+    <div class="when">STAGE 4 · 29 Sep 11:23 · commit <code>cd332c9</code></div>
+    <b>"Fix blue-sky-only"</b><br>
+    Next failure: <span class="blue">pure blue screen</span> — sky renders, terrain does not. The lit runtime material was
+    still failing asynchronously for the terrain mesh. Final fix: swap to the engine's <b>unlit</b>
+    <code>VertexColorMaterial</code> (always precompiled, shows vertex colours directly). Day/night retained.
+    From here on the terrain had vertex-color shading baked into the mesh itself.
+
+  <div class="tl done">
+    <div class="when">STAGE 5 · 29 Sep 16:32 → 16:49 · commit <code>b71d36a</code> — <b>THE BREAKTHROUGH</b></div>
+    <b>"TERRAIN VISIBLE"</b><br>
+    Hours of pixel-science debugging (full checklist in §6) ended with two discoveries that finally made the terrain appear:
+    <br><b>(1)</b> The voxel world builds with <b>+Y as height</b>, but UE's camera is <b>+Z-up</b>. The terrain was literally
+    a rolled vertical slab in front of / under the camera. Fix: spawn the world actor with <code>FRotator(0,0,90)</code>
+    (roll +90°) so local Y→world Z. The pitch -90° idea <u>does not</u> map Y up correctly (local Y stays world Y).
+    <br><b>(2)</b> The pawn was being teleported / was free-falling to world Z ≈ -5382…-7193 — <u>miles below the terrain</u> —
+    so the camera was aimed at nothing. Fix: the flat-spot camera pin (§4.3).
+    <br>Result — verified in-screenshot: blue sky on top, green voxel ground on the bottom, stable
+    <code>DBG CAM pos=(26,14,24.5)</code>. Debug probe objects removed. Project committed.</div>
+
+  <div class="tl fail">
+    <div class="when">Parallel · the UBT boot-war</div>
+    <span class="red">The build/launch intermittently deadlocked</span> at "Launching UnrealBuildTool… ValidatePlatforms".
+    Eventually diagnosed as a .NET apphost problem with the engine's bundled UBT. Workaround chain: kill all
+    <code>UnrealEditor/dotnet/cmds</code>, delete <code>%LOCALAPPDATA%\UnrealBuildTool</code>, run the ValidatePlatforms
+    step manually once with DOTNET_ROOT pointed at the engine's <code>10.0/win-x64</code> dotnet — then boots became fast.
+    (Full recipe in §7.)
+
+  </div>
+</div>
+
+<!-- ======================= DEBUGGING EPIC ======================= -->
+<h2 id="gamedev"><span class="num">§6</span>The debugging epic — every bug and its root cause</h2>
+
+<h3>6.1 The enemies we fought</h3>
+<table>
+  <tr><th>#</th><th>Symptom</th><th>Root cause</th><th>Fix</th></tr>
+  <tr><td>1</td><td>Flat grey screen at launch</td><td>Runtime material + async shader compile never finishing on iGPU; default PostProcessQuality dialog blocking</td><td>Precompiled vertex-color material + <code>-unattended</code></td></tr>
+  <tr><td>2</td><td>Pure blue screen (sky only)</td><td>Lit vertex-color material still async-compiling for terrain mesh</td><td>Engine <b>unlit</b> VertexColorMaterial</td></tr>
+  <tr><td>3</td><td>Terrain "invisible" / vertical wall</td><td>Voxel grid is Y-up; camera is Z-up → terrain tilted 90°</td><td>Spawn VoxelWorld with roll +90° (<code>FRotator(0,0,90)</code>)</td></tr>
+  <tr><td>4</td><td>Camera ends up at Z ≈ -5382 / -7193</td><td>Pawn teleported to engine spawn, then free-fell through the (collision-less) terrain all the way to the world bottom</td><td>Flat-spot search + freeze pawn + 0.5 s re-pin of <code>ClientSetLocation</code></td></tr>
+  <tr><td>5</td><td>"Still blue screen" early reports</td><td>Screenshot capture racing the engine; probe objects placed but stacked at wrong axis (all at Y=39 in a Z-up world)</td><td>DBG CAM position logging + exact POV verification loop</td></tr>
+  <tr><td>6</td><td>Build appears to hang / DLL not updating</td><td>Build.bat child process + PowerShell pipe deadlock / very long link on iGPU machine</td><td>Redirect build output to a log file (<code>&gt; %TEMP%\b.log 2&gt;&amp;1</code>) and wait on exit</td></tr>
+  <tr><td>7</td><td>Boot deadlock at ValidatePlatforms</td><td>Engine UBT .NET apphost can't find its runtime automatically</td><td>Manual ValidatePlatforms with DOTNET_ROOT=…<code>\10.0\win-x64</code> + clear UBT cache</td></tr>
+  <tr><td>8</td><td>Compile errors (FVector 2-arg, SetDesiredRotation)</td><td>UE 5.8 FVector needs 3 args in this path; <code>APlayerCameraManager::SetDesiredRotation</code> never existed</td><td>3-arg vectors; use <code>ClientSetLocation</code> instead</td></tr>
+</table>
+
+<h3>6.2 The discipline that cracked it</h3>
+<div class="card">
+  <p>Because the AI could not <i>see</i> screenshots, we built a <b>pixel-probing renderer truth-loop</b>:</p>
+  <ol>
+    <li>Delete old log + screenshots before each launch (stale files caused false alarms).</li>
+    <li>Log machine-readable markers at every stage (<code>VW:</code>, <code>TERRAVOX</code>, <code>DBG CAM</code>…).</li>
+    <li>At t&gt;6 s the game self-screenshots with <code>show Default</code> + <code>HighResShot 1280x720</code>.</li>
+    <li>Analyse the PNG <b>pixel-by-pixel</b> with System.Drawing: a 20×12 region classifier
+    (b=blue sky, G=green, g=grey, Y=yellow, R=red, W=bright) plus a 32-bucket colour-cluster histogram.</li>
+    <li>From the region map we could <i>infer</i> the scene composition (e.g. "sky rows on top, green band on bottom =
+      terrain visible; all-blue = camera pointing at void; all-grey = material failed").</li>
+  </ol>
+  <p>Also used staged <b>"truth-table" probes</b> (static vs procedural-mesh cubes, basic vs vertex-colour materials,
+  placed at known coordinates) to isolate exactly which render path worked — that's how the unlit material was proven.</p>
+</div>
+
+<h3>6.3 The axis confusion (why it took so long)</h3>
+<div class="card">
+  <p>The world generator writes block <i>(X, Y, Z)</i> with <b>Y used as altitude</b> (classic Minecraft layout) while
+  UE positions actors in <b>+Z-up</b>. This single mismatch produced every "invisible terrain" moment and even made
+  <code>GetTerrainHeight(X, Z)</code> misuse the wrong axis in camera logic. The correct mental model,
+  <b>verified on screen</b>:</p>
+  <pre><code>VoxelWorld spawned with FRotator(0, 0, 90)
+  voxel grid (X, Z)  ==  world (X, -Y)
+  voxel height (local +Y)  ==  world +Z
+  GetTerrainHeight(X, -worldY)  ==  ground world-Z  (eye = H + 3.5)</code></pre>
+  <p><b>Very important:</b> a pitch of -90° does NOT help — local Y stays world Y. Roll +90° is the only mapping that
+  lifts voxel-height into world-up.</p>
+</div>
+
+<!-- ======================= LESSONS ======================= -->
+<h2 id="lessons"><span class="num">§7</span>Hard-won lessons &amp; toolchain knowledge</h2>
+
+<h3>7.1 Build — the reliable recipe (always works now)</h3>
+<pre><code>cmd.exe /c "\"C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles\Build.bat\" \
+  TerraVoxUE5Editor Win64 Development \
+  "-Project=C:\Users\COBUY-IT\TerraVoxUE5\TerraVoxUE5.uproject" \
+  -WaitMutex -NoHotReloadFromIDE 1&gt;%TEMP%\b.log 2&gt;&amp;1"
+# then: grep %TEMP%\b.log for 'error C|error LNK|Total execution'
+# recent build times ~25-66 s, exit code 0</code></pre>
+<ul>
+  <li><b>Never pipe Build.bat through PowerShell</b> (deadlock); always redirect to a file and wait on process exit.</li>
+  <li>Between iterations, force-kill the editor (<code>Stop-Process -Force</code>), never graceful stop.</li>
+  <li>Deleting <code>%LOCALAPPDATA%\UnrealBuildTool</code> clears stale UBT state.</li>
+</ul>
+</div>
+
+<h3>7.2 Launch — the recipe</h3>
+<pre><code>UnrealEditor.exe -project=C:\Users\COBUY-IT\TerraVoxUE5\TerraVoxUE5.uproject \
+  -game -ResX=1280 -ResY=720 -windowed -NoSplash -log -d3d11 -unattended</code></pre>
+<ul>
+  <li>Delete <code>Saved/Logs/TerraVoxUE5.log</code> and all screenshots before each run.</li>
+  <li>Boot ≈ 2.5–3.5 min on this machine; watch the log for <code>pinned eye</code> marker.</li>
+  <li><code>-d3d11</code> is mandatory (Intel UHD 620; no Vulkan/D3D12 reliability here).</li>
+</ul>
+
+<h3>7.3 The PNG ground-truth method</h3>
+<pre><code># after HighResShot is written:
+Add-Type -AssemblyName System.Drawing
+# read 20x12 region map from HighresScreenshot00000.png + 32-bucket colour histogram</code></pre>
+
+<h3>7.4 UE 5.8 gotchas (memory, so we never waste hours again)</h3>
+<ul>
+  <li><code>FVector(a, b)</code> 2-arg form fails to compile in some contexts → always use 3 args.</li>
+  <li><code>APlayerCameraManager::SetDesiredRotation</code> does not exist → use <code>ClientSetLocation</code> + control rotation.</li>
+  <li>Runtime-created dynamic materials async-compile → fragile on iGPU; prefer engine precompiled materials.</li>
+  <li><code>CreateMeshSection(bCreateCollision=true)</code> publishes collision data but the pawn still free-falls
+  through terrain → component collision posture + complex-as-simple is next to fix (§8).</li>
+  <li>The engine may teleport the pawn to map default-spawn <i>after</i> the map reports loaded — always tolerate late movement.</li>
+  <li>Module .Target.cs must add <code>ProceduralMesh</code> (and mirror in Build.cs) or non-editor targets fail to link.</li>
+</ul>
+
+<!-- ======================= BLOCKERS ======================= -->
+<h2 id="blockers"><span class="num">§8</span>Current blockers &amp; known bugs (honest)</h2>
+<div class="card">
+  <ul>
+    <li><span class="red"><b>Terrain collision / pawn free-fall (blocking gameplay).</b></span>
+      The terrain PMC sections include cooked collision bodies, but the Character's capsule doesn't land on them —
+      the pawn falls through to the world bottom. Until fixed, the pawn stays frozen and the camera is cinematic-pinned.
+      <b>First candidate fixes</b> (in order, all cheap to try):
+      <ol>
+        <li>On the PMC: <code>SetCollisionEnabled(QueryAndPhysics)</code> + <code>SetCollisionObjectType(ECC_WorldStatic)</code>
+        + <code>SetCollisionResponseToAllChannels(ECR_Block)</code>; for complex-as-simple, PMC needs
+        <code>bUseComplexAsSimpleCollision = true</code> (or rely on its auto-built simple collision).</li>
+        <li>Consider a Character <code>CapsuleComponent</code> ground probe on <code>OnActorHit</code> to debug landing.</li>
+        <li>Fallback: build per-chunk runtime <code>UStaticMesh</code> from the same <code>FMeshDescription</code> and let
+        the engine make a proper body (heavier, but 100% standard).</li>
+        <li>Very last resort: voxel ray-casts for gravity + manual ground clamp (full own-physics, most control).</li>
+      </ol></li>
+    <li><span class="gold"><b>Camera is currently cinematic, not gameplay</b></span> — by design until collision lands.</li>
+    <li><span class="gold"><b>Material is unlit vertex colour</b></span> — correct for now, will upgrade to a nicer lit
+      material <i>after</i> gameplay works (with prewarm so the iGPU doesn't go invisible).</li>
+    <li><b>No game feel</b> — no sounds, no UI, no particles yet (all planned, ordered).</li>
+  </ul>
+</div>
+
+<!-- ======================= ROADMAP ======================= -->
+<h2 id="roadmap"><span class="num">§9</span>Roadmap — next moves (priority order)</h2>
+<table>
+  <tr><th>#</th><th>Task</th><th>Why / detail</th><th>Status</th></tr>
+  <tr><td>1</td><td>Terrain collision fix (§8)</td><td>Unlocks walking → first real "I played it" moment</td><td class="no">In flight</td></tr>
+  <tr><td>2</td><td>Rain (Niagara) + Taiga wet ambience</td><td>Plan item #2, big visual payoff, sets the mood</td><td class="no">TODO</td></tr>
+  <tr><td>3</td><td>The System UI (hologram bar, stats, ranks, toasts)</td><td>Plan item #4, Solo Leveling identity</td><td class="no">TODO</td></tr>
+  <tr><td>4</td><td>Block variety + inventory grid</td><td>Plan item #5</td><td class="no">TODO</td></tr>
+  <tr><td>5</td><td>Tier-1 mob + Shadow Extraction</td><td>Plan item #6</td><td class="no">TODO</td></tr>
+  <tr><td>6</td><td>Materials/trees pass + caves + ores</td><td>Plan item #7</td><td class="no">TODO</td></tr>
+  <tr><td>7</td><td>Multiplayer → guilds → dungeons/bosses → sacred sites</td><td>Plan item #8</td><td class="no">TODO</td></tr>
+</table>
+<p class="muted">Rule of thumb from VISION.md: "Merge = playable progress, never lose direction." Every merge must keep the
+game starting up, or the gap closes.</p>
+
+<!-- ======================= MEGA PROMPT ======================= -->
+<h2 id="fullprompt"><span class="num">§10</span>The mega prompt — paste this to continue</h2>
+<p>The following block is a complete self-contained AI prompt: it carries the vision, the code truth, the toolchain
+recipes, the blockers and the immediate next step. Any capable coding assistant can pick up from here blindly.</p>
+
+<div class="promptbox">
+<pre>You are continuing a real Unreal Engine 5.8 C++ game project, "TERRAVOX - The Helix Voxel Realm".
+
+WORKING DIRECTORY: C:\Users\COBUY-IT\TerraVoxUE5   (Windows; PowerShell 5.1; i5-8365U + Intel UHD 620, 16 GB, D3D11 only)
+
+==================== THE VISION (authoritative, from VISION.md) ====================
+Minecraft voxel + Solo Leveling + Dr. Stone + Dragon Ball + Your Name + Indian mythology, in Unreal 5.
+- World: planet-size DNA-helix "Helix Voxel Realm", layered surface/underground/shadow realm; biomes
+  Taiga, Desert, Volcanic, Crystal Caves, Shadow Realm; heavy rain can open time portals.
+- The System (Solo Leveling): holographic blue/red UI, daily quests -> level-up popups, STR/AGI/INT/VIT,
+  rank F->SSS (Shadow Monarch), kill monsters -> extract them as commandable Shadow Soldiers.
+- Science (Dr. Stone): crafting = science lab, chemical reactions (wood+water+electricity=gunpowder,
+  iron+acid+heat=steel), blueprints (steam engine -> trains, radio -> chat), elemental blocks Carbon/Sodium/Gold.
+- Power (Dragon Ball): Ki bar, meditation fills Ki, Kamehameha beams from block combos, level 100 -> Super Saiyan
+  mode (glowing blocks, speed).
+- Connection (Your Name): Katawari tethering; rain triggers Time Shift bridging builds across players.
+- Guilds/dungeons: voxel castle guild halls, guild level opens Shadow Gates, guild wars (1v1, 5v5 boss raids),
+  bosses Shadow Monarch / Frieza Clone / Ancient Scientist; loot Shadow Orbs, Formula Scrolls, Ki Crystals.
+- Inventory/UI: MC grid + holographic cards, equipment + shadow weapon slot, 3x3 crafting + chemical bar,
+  maps (world + shadow realm), chat + guild telepathy, quest log.
+- Sacred/Indian (30%): Shiva Lingam secret boss (only highest golden aura sees Lord Shiva's eyes), Tulsi leaves
+  (heal + poison immunity, Vedic runes), Vedic chants -> golden light particles + geometric runes, Saraswati Point
+  (ISRO dish + temple pillar observatory, nebulae, Sanskrit energy), Saraswati Flow (blue energy river in void),
+  Boötes Void (infinite darkness, dying red stars, stardust demons, voxel asteroids).
+- Art: UE5 cinematic, Lumen, volumetric, black/red/blue/purple + firelight + sacred gold; anime+realism blend.
+- Build plan order (do NOT skip ahead): 1 terrain (DONE) 2 Taiga ambience+rain 3 day/night+weather (day/night done)
+  4 The System UI 5 block/chemistry variety + inventory 6 mobs+shadow extraction 7 materials/trees/caves/ores
+  8 multiplayer/guilds/dungeons/bosses/sacred.
+
+==================== CURRENT CODE TRUTH (all verified today) ====================
+Files (Source/TerraVoxUE5/):
+- Public/TerraVoxGameMode.h + Private/TerraVoxGameMode.cpp:  GameMode spawns atmosphere actors at runtime
+  (ADirectionalLight intensity 3.4, ASkyAtmosphere, AExponentialHeightFog density 0.003 heightfalloff 0.05
+  inscattering 0.56/0.62/0.68, ASkyLight with real-time capture off intensity 0.6). Tick() runs a 240s day/night
+  cycle (elevation sin(phase*2PI)*70, azimuth -35+phase*360, day=lamp(0.9..3.5,color lerp warm-day<->cold-night,
+  fog color/density lerp). At t>1s: 0.05s timer does a FLAT-SPOT search over voxel grid gx 2..40, gy 2..55 step 3
+  (min sum of |H(gx+-3,..)-H|), picks FlatSpot + ground H, FREEZES the pawn (SetActorEnableCollision(false) +
+  SetComponentTickEnabled(false) on all UMovementComponents), sets actor at (FlatSpot.X, FlatSpot.Y, H+3.5),
+  ClientSetLocation same + rot(-8,0,0), then a 0.5s repeating timer keeps ClientSetLocation so the camera stays
+  put (this is the workaround while pawn physics are broken). At t>6s: logs DBG CAM, `show Default`,
+  then HighResShot 1280x720 (0.8s later). At t>2s: logs Mesh bounds + DrawDebugBox (diagnostic).
+- Public/VoxelWorld.h + Private/VoxelWorld.cpp:  custom voxel engine. Single PMC "VoxelMesh" (created in CDO
+  constructor: static FObjectFinder VERTEXCOLOR material /Engine/EngineDebugMaterials/VertexColorMaterial.
+  VertexColorMaterial (UNLIT, engine precompiled - chosen because runtime lit async shaders never finished on
+  this iGPU)). ChunkSections: FIntVector(cx,0,cz) -> PMC section index. RenderDistance=4 -> 9x9=81 chunks.
+  ChunkSize=16, TerrainDepth=64. Height: H=24+22*(PerlinNoise2D(X*0.03,Z*0.03)+0.6*PerlinNoise2D(X*0.008+31.7,
+  Z*0.008+11.3)) clamped [1,63]. Columns: grass(y=H,104,158,64) / dirt(y=H+1,132,94,66) / stone below
+  (124,124,130), bedrock y=0; 10% chance spruce pine (log 101,73,51; leaves 52,112,40) when H in 20..52.
+  Meshing: cull faces against IsSolid; vertices (X,Y=HEIGHT,Z); winding explicitly reversed to face outward;
+  AddFace bakes per-face sun shade (down 0.68, sides 0.82/0.9) + per-block grain (hash&7-3) into FColor.
+  Public API: GetBlock/GetTerrainHeight(X,Z)/SetBlock(->rebuild 3x3 chunk neighbourhood)/RebuildChunksInRadius.
+- Public/PlayerPawn.h + Private/PlayerPawn.cpp: ACharacter FPS. SpringArm length 0, camera bUsePawnControlRotation
+  false, bUseControllerRotationYaw true. Move: gravity 1.8, jump 430, aircontrol 0.28, walk 440. Raycast
+  (ECC_WorldStatic, reach 7) FireL->break SetBlock(id 0), FireR->place plank id 4 via Hit.ImpactPoint +/- normal*0.5,
+  acting on Hit.Component's attachment root actor.
+- Config/DefaultEngine.ini: GameMapsSettings GlobalDefaultGameMode=/Script/TerraVoxUE5.TerraVoxGameMode,
+  GameDefaultMap + GameInitialMap = /Engine/Maps/Entry.Entry (empty map; everything is C++ spawned).
+  Renderer: distance fields off, virtual shadows off, GI method 0. SmoothFrameRate 30fps min.
+
+==================== AXIS TRUTH (super important, took hours) ====================
+Voxel grid is Y-UP (block y = altitude), UE camera is Z-UP. AVoxelWorld must be spawned with
+FRotator(0.f, 0.f, 90.f) (ROLL +90). THEN: voxel grid (X, Z) == world (X, -Y); voxel local +Y (height) == world +Z;
+ground height for world (X,Y) = GetTerrainHeight(X, -Y); eye Z = H + 3.5. A pitch of -90 does NOT map Y up.
+This mapping is verified on-screen (green terrain + blue sky + horizon, stable camera).
+
+==================== TOOLCHAIN RECIPES (do not reinvent) ====================
+BUILD: use cmd.exe with output redirected to %TEMP%\b.log, then grep for 'error C|error LNK|Total execution':
+  cmd.exe /c "C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles\Build.bat TerraVoxUE5Editor Win64 Development
+  "-Project=C:\Users\COBUY-IT\TerraVoxUE5\TerraVoxUE5.uproject" -WaitMutex -NoHotReloadFromIDE 1>%TEMP%\b.log 2>&1"
+  KEEP THE PowerShell pipe AWAY from Build.bat (deadlock). Typical 25-66s, exit 0.
+LAUNCH: kill all UnrealEditor (-Force), delete Saved/Logs/TerraVoxUE5.log + all Saved/Screenshots/WindowsEditor/*.png,
+  then:
+  UnrealEditor.exe -project=...uproject -game -ResX=1280 -ResY=720 -windowed -NoSplash -log -d3d11 -unattended
+  Poll the log for 'pinned eye' (boot ~2.5-3.5 min).
+GROUND TRUTH: the game self-shoots HighResShot 1280x720 into Saved/Screenshots/WindowsEditor/HighresScreenshot00000.png
+  at t>6s. Analyse it with System.Drawing: 20x12 region classifier (b=bluesky, G=green, g=grey, W=bright, R=red) +
+  32-bucket colour histogram. Rows sky-top / green-bottom = terrain visible. All-blue = camera at void.
+UBT BOOT-HANG: if boot deadlocks at 'ValidatePlatforms', fix = kill UnrealEditor/dotnet/cmds, delete
+  %LOCALAPPDATA%\UnrealBuildTool, run once manually:
+  & "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\ThirdParty\DotNet\10.0\win-x64\dotnet.exe"
+     "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll"
+     -Mode=ValidatePlatforms -OutputSDKs -AllPlatforms -project=C:\Users\COBUY-IT\TerraVoxUE5\TerraVoxUE5.uproject
+     -log=C:\Users\COBUY-IT\TerraVoxUE5\.utbuild\AutoSDKInfo.txt
+  set DOTNET_ROOT to ...\win-x64 while doing it. Then normal boots are fast. Kill EpicGamesLauncher (CPU hog).
+
+==================== CURRENT BLOCKER (springboard for your first task) ====================
+TERRAIN COLLISION / PAWN FREE-FALL: the pawn falls straight through the terrain to world bottom
+(camera would sit at Z~=-5382..-7193). Currently worked around by freezing + pinning the camera (see GameMode).
+Your FIRST TASK: make a Character actually stand on the voxel terrain. Try in this order, verifying each with a
+'>pinned eye' boot + screenshot + a 'DBG CAM' that stays on the flat spot:
+1) On the PMC in VoxelWorld: Mesh->SetCollisionEnabled(QueryAndPhysics); SetCollisionObjectType(ECC_WorldStatic);
+   SetCollisionResponseToAllChannels(ECR_Block); consider bUseComplexAsSimpleCollision (PMC needs it for
+   per-triangle collision) and confirm CreateMeshSection's bCreateCollision argument interacts correctly.
+2) If still falling, debug with a one-shot OnActorHit / ground-probe log on the capsule.
+3) Fallback: per-chunk runtime UStaticMesh from an FMeshDescription (standard bodies, most reliable).
+4) Last resort: voxel raycast gravity + manual ground clamp.
+Once the pawn stands: unfreeze it (re-enable collision + movement ticks), remove/replace the camera pin with the
+player's own controller, and DELETE the frozen-camera workaround. DO NOT remove the flat-spot logic - it is the
+correct spawn trick.
+When done, commit per project style (concise, no emoji) and report the screenshot verification.
+
+==================== AFTER COLLISION --------------------
+Roadmap order: (2) Niagara rain + wet Taiga ambience (puddles/reflections, campfire glow, wet moss) -> (3) The System
+UI holograms (health/stats/rank/quests, level-up toast) -> (4) block/chemistry variety + inventory grid ->
+(5) Tier-1 melee mob + Shadow Extraction -> (6) materials/trees pass + caves + ores -> (7-8) multiplayer/guilds/
+dungeons/bosses/sacred sites. Always keep the game launching; commit each merge; never lose the VISION of VISION.md.
+
+KNOWN GOTCHAS to respect: FVector needs 3 args; APlayerCameraManager has no SetDesiredRotation (use ClientSetLocation);
+dynamic runtime materials async-compile (avoid on iGPU, prefer engine precompiled); engine may teleport the pawn after
+map load (tolerate); keep the module .Target.cs Build.cs in sync for ProceduralMesh; face/winding must face outward;
+logs are at Saved/Logs/TerraVoxUE5.log; the user is autopilot-mode (fire tests without asking questions).</pre>
+</div>
+
+<!-- ======================= APPENDIX ======================= -->
+<h2 id="appendix"><span class="num">§11</span>Appendix — references</h2>
+
+<h3>11.1 Full commit history (git log)</h3>
+<pre><code>b71d36a  29 Sep 16:49  TERRAIN VISIBLE: ground truth fix - world is Y-up voxels, roll +90 to Z-up;
+                        pin camera to flat spawn so pawn can't slide/free-fall; single PMC mesh with
+                        per-chunk sections; drop debug probe spawns
+cd332c9  29 Sep 11:23  Fix blue-sky-only: engine VertexColorMaterial (unlit) instead of runtime
+                        async-shader material; day/night retained
+1f2e347  29 Sep 09:58  Fix GREY screen: runtime lit vertex-color material (was unlit default),
+                        unattended (kill quality dialog), 81-chunk world, skylight ambient;
+                        add day/night cycle
+161a126  14 Sep 10:12  Taiga atmosphere step 1: pine block palette + tree gen, sky-atmosphere,
+                        sun+shadows, exponential fog
+6f71ad7  13 Sep 23:21  TERRAVOX UE5: first playable voxel world - mesh terrain, FPS pawn,
+                        block break/place (Entry map, D3D11)</code></pre>
+
+<h3>11.2 Launch &amp; build commands (copy-paste)</h3>
+<table>
+  <tr><th>Action</th><th>Command</th></tr>
+  <tr><td>Launch game</td><td><code>./run_ue5.ps1</code> (or the full UnrealEditor.exe line from §7.2)</td></tr>
+  <tr><td>Build</td><td><code>Build.bat TerraVoxUE5Editor Win64 Development "-Project=...</code> (see §7.1)</td></tr>
+  <tr><td>In-game screenshot (inside C++)</td><td>Auto at t&gt;6 s; also manual console: <code>HighResShot 1280x720</code></td></tr>
+  <tr><td>See logs</td><td><code>Saved/Logs/TerraVoxUE5.log</code></td></tr>
+  <tr><td>Screenshots live at</td><td><code>Saved/Screenshots/WindowsEditor/HighresScreenshot00000.png</code></td></tr>
+</table>
+
+<h3>11.3 Key markers to poll in the log</h3>
+<ul>
+  <li><code>TERRAVOX BOOT TEST: GameMode BeginPlay ran</code> — world streaming started</li>
+  <li><code>VW: chunk[0,0] section=.. verts=.. tris=.. registered=1 sections=..</code> — terrain mesh built</li>
+  <li><code>TERRAVOX pinned eye to (.., .., ..) groundH=..</code> — camera pinned</li>
+  <li><code>DBG CAM pos=.. rot=.. fov=..</code> — exact POV at capture</li>
+  <li><code>TERRAVOX HighResShot requested</code> — screenshot taken</li>
+</ul>
+
+<h3>11.4 FAQ / mental models</h3>
+<div class="card">
+  <details><summary>Why is the material unlit?</summary>Runtime lit materials async-shader-compile forever on this iGPU,
+  leaving the terrain invisible for the whole session. Engine precompiled unlit VertexColorMaterial appears instantly
+  and honours the baked vertex-colour shading.</details>
+  <details><summary>Why not a marketplace voxel plugin?</summary>Deliberate decision (VISION.md): full control + learning.
+  The custom engine already does heightmap + trees + culled meshing + break/place + colour palette.</details>
+  <details><summary>Why is the camera frozen instead of first-person?</summary>Temporary. The pawn falls through the terrain
+  (collision bug, §8). Once a Character can stand, the pin/unfreeze swap is a two-line change and first-person gameplay returns.</details>
+  <details><summary>Why Entry map / zero assets?</summary>Everything is spawned in C++, so the project is tiny, fully
+  scripted, and deterministic. Assets (materials, Niagara, UI) will be added per feature. This fits the
+  "merge = playable" rule.</details>
+  <details><summary>Windows-only? Why D3D11?</summary>Machine is i5-8365U + Intel UHD 620. D3D11 is the only reliable
+  backend here; built for desktop (Development editor).</details>
+</div>
+
+<div class="footer">TERRAVOX · "The Helix Voxel Realm" · master document · always updated at each milestone</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "5.8",
+	"Category": "",
+	"Description": "TERRAVOX UE5 edition - voxel survival",
+	"Modules": [
+		{
+			"Name": "TerraVoxUE5",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
